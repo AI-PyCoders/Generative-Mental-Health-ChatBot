@@ -17,6 +17,3 @@ If you see the message:
 'Database connection established
 App is running on port 3000'
 on your console, then you have successfully run the project
-
-Postman collection for this project can be found at:
-https://documenter.getpostman.com/view/12339931/U16dT9mj
