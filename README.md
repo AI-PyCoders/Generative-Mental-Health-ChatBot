@@ -42,4 +42,5 @@ To store your API keys securely, follow these steps:
 [RedditAPI]
 client_id = YOUR_CLIENT_ID
 client_secret = YOUR_CLIENT_SECRET
+user_agent = YOUR_USER_AGENT
 ```
