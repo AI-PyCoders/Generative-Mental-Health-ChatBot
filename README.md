@@ -8,13 +8,19 @@ The Generative Mental Health Chatbot is a web application developed by our team 
 
 This project is an ongoing endeavor, and the README file will be continuously updated as the project progresses. Please refer to the latest version of the README for the most up-to-date information on the project's features, installation instructions, and usage guidelines.
 
+
 ## Updates
 
-- Added Reddit data gathering: We have utilized the Reddit API to gather data from various subreddits. The gathered data has been included in the `datasets` folder.
+- Added Reddit data gathering: We have utilized the Reddit API to gather data from various subreddits. The gathered data has been included in the `datasets` folder. The new data consists of 74,188 rows and 12 columns.
 - Added code and data related to Reddit data gathering: You can find the code for gathering Reddit data in the repository. The data is located in the `datasets` folder. The file `subreddit_list.txt` contains the list of subreddits to be searched.
 - Added simple backend: We have implemented a basic backend for the chatbot. The code for the backend has been added to the repository.
-- Conducted EDA on the data: We have performed Exploratory Data Analysis (EDA) on the gathered data. The code for EDA can be found in the file named `EDA.ipynb`. Additionally, we have saved the EDA figures in the `graphs` folder.
+- Broke down EDA file: The EDA file has been divided into two separate files, `EDA.ipynb` and `NLP.ipynb`. The `EDA.ipynb` file contains the code and analysis for Exploratory Data Analysis (EDA) on the new data, which consists of 74,188 rows and 12 columns. The `NLP.ipynb` file focuses on Natural Language Processing (NLP) techniques.
+- Conducted EDA on the new data: We have performed Exploratory Data Analysis (EDA) on the new data. The code for EDA can be found in the `EDA.ipynb` file. Additionally, we have saved the EDA figures in the `graphs` folder.
 - Created `config.ini` file: We have added a `config.ini` file to securely store API keys. This file has been added to the `.gitignore` to prevent it from being committed to the repository.
+- Updated instructions for getting data from Reddit: The README now provides detailed instructions on registering a Reddit app and obtaining client ID and client secret to authenticate API requests. Please refer to the updated instructions for more information.
+
+
+
 
 ## Instructions for Getting Data from Reddit
 
