@@ -2,16 +2,20 @@ import praw
 import csv
 from datetime import datetime
 import os
+import configparser
 
 
 def initialize_reddit_client():
     """
     Initialize the Reddit API client.
     """
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
     reddit = praw.Reddit(
-        client_id='mP4TTnJ33yRStzVRBmKvdw',
-        client_secret='px23V6oco1i_yUI9ME7DEVi5dLru1g',
-        user_agent='YOUR_USER_AGENT'
+        client_id=config['RedditAPI']['client_id'],
+        client_secret=config['RedditAPI']['client_secret'],
+        user_agent=config['RedditAPI']['user_agent']
     )
     return reddit
 
