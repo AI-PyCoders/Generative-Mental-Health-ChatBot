@@ -39,7 +39,7 @@ To store your API keys securely, follow these steps:
 2. Add the following content to the `config.ini` file:
 
 ```ini
-[reddit]
+[RedditAPI]
 client_id = YOUR_CLIENT_ID
 client_secret = YOUR_CLIENT_SECRET
 ```
