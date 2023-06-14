@@ -18,8 +18,17 @@ This project is an ongoing endeavor, and the README file will be continuously up
 - Conducted EDA on the new data: We have performed Exploratory Data Analysis (EDA) on the new data. The code for EDA can be found in the `EDA.ipynb` file. Additionally, we have saved the EDA figures in the `graphs` folder.
 - Created `config.ini` file: We have added a `config.ini` file to securely store API keys. This file has been added to the `.gitignore` to prevent it from being committed to the repository.
 - Updated instructions for getting data from Reddit: The README now provides detailed instructions on registering a Reddit app and obtaining client ID and client secret to authenticate API requests. Please refer to the updated instructions for more information.
+- Performed NLP preprocessing: Completed all the necessary preprocessing steps for Natural Language Processing (NLP). The preprocessed data file can be found at `datasets/preprocessed_data.csv`.
+- Uploaded project architecture and workflow diagrams: Added Architecture.png and Workflow.png for better understanding of the project. Images are in `diagrams` folder.
 
 
+## Project Architecture
+
+![Architecture](diagrams/Architecture.png)
+
+## Workflow
+
+![Workflow](diagrams/Workflow.png)
 
 
 ## Instructions for Getting Data from Reddit
