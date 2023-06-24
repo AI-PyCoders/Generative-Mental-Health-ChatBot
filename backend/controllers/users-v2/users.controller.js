@@ -1,6 +1,6 @@
+import { USERS } from "../../models/index.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../../middlewares/index.js";
-import { USERS } from "../../models/index.js";
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -15,6 +15,13 @@ const loginUser = async (req, res) => {
       }
       let token = await generateToken(found.id, found.role_id, req.body.ios);
       await found.update({ last_login: new Date() });
+      let dataToSend = {
+        id: found.id,
+        first_name: found.first_name,
+        last_name: found.last_name,
+        email: found.email,
+        full_name: found.full_name,
+      };
       return res.status(200).json({
         status: 200,
         data: { userDetails: dataToSend, token },
@@ -48,8 +55,9 @@ const logoutUser = async (req, res) => {
   }
 };
 
-const createNewUser = async (req, res) => {
-  const { first_name, last_name, email, password, phone } = req.body;
+const registerUser = async (req, res) => {
+  const { first_name, last_name, email, password } = req.body;
+  console.log(req.body);
   try {
     let found = await USERS.findOne({
       where: { email: email },
@@ -62,7 +70,6 @@ const createNewUser = async (req, res) => {
           first_name: first_name.trim(),
           last_name: last_name.trim(),
           full_name: first_name.trim() + " " + last_name.trim(),
-          phone: phone,
           email: email.trim(),
           password: password ? password.trim() : "temppass",
         },
@@ -119,4 +126,4 @@ const getParticularUser = async (req, res) => {
   }
 };
 
-export { createNewUser, loginUser, getAllUsers, getParticularUser, logoutUser };
+export { registerUser, loginUser, getAllUsers, getParticularUser, logoutUser };

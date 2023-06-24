@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
+
+html,
+body,
+#root,
+.app {
+  height: 100%;
+  width: 100%;
+  font-family: "Rubik", sans-serif;
+}
+
+
+.message-container {
+  width: 50%;
+  padding: 10px;
+  display: flex;
+}
+
+.sender {
+  flex: 0 0 50%;
+  background-color: #DCF8C6;
+  border-radius: 10px;
+  margin-left: auto;
+}
+
+.receiver {
+  flex: 0 0 50%;
+  background-color: #E7E7E7;
+  border-radius: 10px;
+  margin-right: auto;
+}

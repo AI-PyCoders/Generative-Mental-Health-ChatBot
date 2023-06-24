@@ -12,6 +12,8 @@
   "author": "Rohit Kumar and team.",
   "license": "ISC",
   "dependencies": {
+    "@tensorflow/tfjs": "^4.7.0",
+    "@tensorflow/tfjs-node": "^4.7.0",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

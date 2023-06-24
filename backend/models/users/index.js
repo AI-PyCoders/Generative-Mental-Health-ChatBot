@@ -23,10 +23,6 @@ const USERS = sequelize.define(
       type: DataTypes.STRING(105),
       allowNull: false,
     },
-    phone: {
-      type: DataTypes.STRING(20),
-      allowNull: true,
-    },
     email: {
       type: DataTypes.STRING(80),
       allowNull: false,
@@ -37,9 +33,6 @@ const USERS = sequelize.define(
     },
     socket_id: {
       type: DataTypes.STRING(80),
-    },
-    gender: {
-      type: DataTypes.ENUM("male", "female", "others"),
     },
     is_deleted: {
       type: DataTypes.BOOLEAN,
