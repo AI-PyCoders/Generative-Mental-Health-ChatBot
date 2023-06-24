@@ -8,6 +8,7 @@ const router = Router();
 
 router.post("/login", usersController.loginUser);
 router.get("/logout", verifyToken, usersController.logoutUser);
+router.post("/", usersController.registerUser);
 
 const makeRoutes = (app) => {
   app.use("/users", router);
