@@ -67,7 +67,7 @@ def fetch_posts_from_subreddit(subreddit_name, reddit):
         if posts_count % batch_size == 0:
             df = pd.DataFrame(post_data, columns=['Post_Id', 'Subreddit', 'Post_Title', 'Post_Body', 'Comment',
                                                   'Upvotes', 'Downvotes', 'Comment_Created', 'Flair'])
-            df.to_csv('reddit_comments_new.csv', mode='a', index=False,
+            df.to_csv('datasets/reddit_data/reddit_comments.csv', mode='a', index=False,
                       header=posts_count < batch_size+1)
             post_data = []  # Reset the data list
 
@@ -87,7 +87,7 @@ def read_subreddit_list(filename):
 
 
 def main():
-    subreddit_list_filename = "datasets/subreddit_list.txt"
+    subreddit_list_filename = "datasets/reddit_data/subreddit_list.txt"
 
     # Initialize the Reddit API client
     reddit = initialize_reddit_client()
