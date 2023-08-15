@@ -1,12 +1,15 @@
 import express from "express";
 import { createServer } from "http";
 import cors from "cors";
+import path from "path";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
-import tf from "@tensorflow/tfjs-node";
+import { fileURLToPath } from "url";
+import "./python_shell.js";
+
 const PORT = Number(process.env.PORT) || 3001;
 import "../database/index.js";
-import { io, setupSocket } from "../socket/index.js";
+import { setupSocket } from "../socket/index.js";
 
 const appLoader = async (app, router) =>
   new Promise(async (resolve) => {
@@ -24,15 +27,14 @@ const appLoader = async (app, router) =>
       })
     );
 
-    // const model = await tf.loadLayersModel('public/chatbot_model.h5');
-    // let response  = model.predict("How are you!")
-    // console.log(response);
     const server = createServer(app);
     setupSocket(server);
 
     app.use("/api", router);
     app.get("/health-check", (req, res) => res.status(200).send(""));
 
+    app.use("/", express.static(path.resolve(`build`)));
+    app.use("/*", express.static(path.resolve(`build`)));
     server.listen(PORT, () => {
       console.log(`App is running on port ${PORT}`);
       resolve(true);

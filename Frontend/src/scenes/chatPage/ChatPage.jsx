@@ -13,10 +13,11 @@ import {
   Paper,
   ListItemButton,
   Box,
+  IconButton,
 } from "@mui/material";
 import defaultImage from "../../assets/picture-1686621202034-593195804.jpeg";
 import Navbar from "scenes/navbar";
-
+import CommentIcon from "@mui/icons-material/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import { useEffect } from "react";
@@ -24,6 +25,8 @@ import { useState } from "react";
 import io from "socket.io-client";
 import ChatBox from "components/ChatBox";
 import EmptyChatBox from "components/EmptyChatBox";
+import axios from "axios";
+import background from "../../assets/psychiatrist.jpeg";
 
 const useStyles = makeStyles({
   table: {
@@ -31,7 +34,6 @@ const useStyles = makeStyles({
   },
   chatSection: {
     width: "100%",
-    height: "80vh",
   },
   headBG: {
     backgroundColor: "#e0e0e0",
@@ -50,121 +52,70 @@ const Chat = () => {
   const { palette } = useTheme();
   const token = useSelector((state) => state.auth?.token);
   const [socketConnected, setSocketConnected] = useState(false);
-  const [chats, setChats] = useState([]);
-  const [isChatSelected, setChatSelected] = useState(true);
-
-  const { id, first_name, last_name } = useSelector((state) => state.auth?.user);
+  const [chatDetails, setChatDetails] = useState(null);
+  const [allMessages, setAllMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { id } = useSelector((state) => state.auth?.user);
   const classes = useStyles();
+  const [boatLoading, setBoatLoading] = useState(false);
+
   useEffect(() => {
-    const ENDPOINT = `http://localhost:3001?userId=${id}`;
+    const ENDPOINT = `${process.env.REACT_APP_SOCKET_URL}?userId=${id}`;
     let socket = io(ENDPOINT);
-    socket.on("msg_received", (messageData) => {
-      console.log("new message received>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + JSON.stringify(messageData));
-    });
+    const addMessage = (msg) => {
+      setBoatLoading(false);
+      setAllMessages((prevMessages) => [...prevMessages, msg]);
+    };
+    socket.on("message", addMessage);
     socket.on("connected", () => setSocketConnected(true));
   }, []);
 
-  const getAllChatMessages = async () => {
+  const getChatIFExist = async () => {
     try {
+      let data = await axios.get(`${process.env.REACT_APP_API_URL}/chats/logged-in-user`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (data.status == 200) {
+        let chat_details = data.data.data;
+        if (chat_details) {
+          setChatDetails(chat_details);
+          setAllMessages(chat_details.messages);
+          setLoading(false);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {}, []);
-
-  const createNewChat = async (friendId) => {
-    try {
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getAllMessages = async (chatId) => {
-    try {
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    getChatIFExist();
+  }, []);
 
   return (
-    <Box>
+    <Box style={{ height: "100vh", backgroundImage: `url(${background})`, backgroundRepeat: "no-repeat", backgroundSize: "auto 100%" }}>
       <Navbar />
 
-      <div style={{ padding: "20px" }}>
-        <Grid container>
-          <Grid item xs={12}>
-            <Typography variant="h5" className="header-message">
-              Chat
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container component={Paper} className={classes.chatSection} style={{ padding: "20px", height: "90vh" }}>
-          <Grid item xs={3} className={classes.borderRight500}>
-            <List>
-              <ListItem key="RemySharp">
-                <ListItemIcon>
-                  <Avatar alt={first_name} src={defaultImage} />
-                </ListItemIcon>
-                <ListItemText primary={`${first_name} ${last_name}`}></ListItemText>
-              </ListItem>
-            </List>
-            <Divider />
-
-            <Typography color={palette.neutral.dark} variant="h5" marginTop={3} fontWeight="500" sx={{ mb: "1.5rem" }}>
-              Chats
-            </Typography>
-
-            <List>
-              <React.Fragment>
-                <List>
-                  <ListItem
-                    onClick={() => {}}
-                    disablePadding
-                    sx={{
-                      borderRadius: "5px",
-                      width: "90%",
-                      margin: "0 auto",
-                    }}
-                  >
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <Avatar alt="Profile Pic" src={defaultImage} />
-                      </ListItemIcon>
-                      <ListItemText
-                        primaryTypographyProps={{
-                          fontSize: 16,
-                          fontWeight: "light",
-                          letterSpacing: 0,
-                          color: "#000000DE",
-                        }}
-                        primary={"Title of discussion"}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                </List>
-              </React.Fragment>
-            </List>
-
-            <Divider />
-          </Grid>
-          {isChatSelected ? (
-            <ChatBox
-              classes={classes}
-              allMessages={[
-                { sender: id, message: "Hello" },
-                { sender: "343241212", message: "Hi!" },
-              ]}
-              selectedChat={[]}
-              id={id}
-            ></ChatBox>
-          ) : (
-            <Grid item xs={9} display="flex" alignItems="center" justifyContent="center">
-              <EmptyChatBox></EmptyChatBox>
-            </Grid>
-          )}
-        </Grid>
-      </div>
+      <Grid
+        container
+        justifyContent={"center"}
+        style={{
+          padding: "20px",
+        }}
+      >
+        <ChatBox
+          classes={classes}
+          chatDetails={chatDetails}
+          setChatDetails={setChatDetails}
+          allMessages={allMessages}
+          setAllMessages={setAllMessages}
+          selectedChat={[]}
+          id={id}
+          loading={loading}
+          boatLoading={boatLoading}
+          setBoatLoading={setBoatLoading}
+        ></ChatBox>
+      </Grid>
     </Box>
   );
 };

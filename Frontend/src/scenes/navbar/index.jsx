@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLogout } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
-import { setPosts } from "state";
 
 import { Link } from "react-router-dom";
 
@@ -28,23 +27,6 @@ const Navbar = () => {
   const fullName = `${user.first_name} ${user.last_name}`;
 
   useEffect(() => {
-    const getPosts = async () => {
-      const response = await fetch("http://localhost:3001/posts", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await response.json();
-
-      if (searchQuery) {
-        // Filter the posts based on the search query
-        const filteredPosts = data.filter((post) => post.description.toLowerCase().includes(searchQuery.toLowerCase()));
-        dispatch(setPosts({ posts: filteredPosts }));
-      } else {
-        dispatch(setPosts({ posts: data }));
-      }
-    };
-
-    getPosts();
   }, [searchQuery, token]); // Run the effect whenever searchQuery or token changes
 
   const handleSearch = async (query) => {
@@ -68,16 +50,6 @@ const Navbar = () => {
         >
           AI
         </Typography>
-        {isNonMobileScreens && (
-          <FlexBetween backgroundColor={neutralLight} borderRadius="9px" gap="3rem" padding="0.1rem 1.5rem">
-            <InputBase placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-            <IconButton>
-              <IconButton onClick={() => handleSearch(searchQuery)}>
-                <Search />
-              </IconButton>
-            </IconButton>
-          </FlexBetween>
-        )}
       </FlexBetween>
 
       {/* DESKTOP NAV */}
@@ -87,9 +59,6 @@ const Navbar = () => {
             {theme.palette.mode === "dark" ? <DarkMode sx={{ fontSize: "25px" }} /> : <LightMode sx={{ color: dark, fontSize: "25px" }} />}
           </IconButton>
 
-          <Link to="/chat">
-            <Message sx={{ fontSize: "25px", color: "#333333" }} />
-          </Link>
           <FormControl variant="standard" value={fullName}>
             <Select
               value={fullName}

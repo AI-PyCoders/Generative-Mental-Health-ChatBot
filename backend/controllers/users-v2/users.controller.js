@@ -57,7 +57,6 @@ const logoutUser = async (req, res) => {
 
 const registerUser = async (req, res) => {
   const { first_name, last_name, email, password } = req.body;
-  console.log(req.body);
   try {
     let found = await USERS.findOne({
       where: { email: email },
